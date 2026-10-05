@@ -1,0 +1,61 @@
+{
+  "system": "claims-triage",
+  "epoch": "2026-01-15",
+  "note": "The processing surface as it stood before the 2026-09 model and automation change.",
+  "activities": [
+    {
+      "id": "triage_claim",
+      "purpose": "claims_triage",
+      "subjectClass": "policyholder",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "dataClasses": ["claim_history", "contact"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "fraud_score",
+      "purpose": "fraud_screen",
+      "subjectClass": "policyholder",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "dataClasses": ["claim_history", "contact", "device_id"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "estimate_severity",
+      "purpose": "claims_triage",
+      "subjectClass": "policyholder",
+      "automation": "human_approval",
+      "decisionEffect": "binding",
+      "dataClasses": ["claim_history", "contact", "photos"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "manual_review_queue",
+      "purpose": "fraud_screen",
+      "subjectClass": "policyholder",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "dataClasses": ["contact"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "notify_dependents",
+      "purpose": "claims_triage",
+      "subjectClass": "claimant_dependent",
+      "automation": "none",
+      "decisionEffect": "advisory",
+      "dataClasses": ["contact"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "renewal_offer",
+      "purpose": "renewal_pricing",
+      "subjectClass": "policyholder",
+      "automation": "automated",
+      "decisionEffect": "advisory",
+      "dataClasses": ["claim_history", "contact"],
+      "legalBasis": "legitimate_interest"
+    }
+  ]
+}

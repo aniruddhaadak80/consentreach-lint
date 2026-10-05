@@ -1,0 +1,83 @@
+{
+  "note": "The ledger as it stood at the 2026-01-15 epoch. Diffing it against the current ledger is what surfaces reach-withdrawal: g-1005 was still covering manual_review_queue, and the vendor grant g-1006 was still inside its validity window.",
+  "grants": [
+    {
+      "id": "g-1001",
+      "subjectClass": "policyholder",
+      "purposes": ["claims_triage"],
+      "activities": ["triage_claim"],
+      "dataClasses": ["claim_history", "contact"],
+      "legalBasis": "consent",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "active"
+    },
+    {
+      "id": "g-1002",
+      "subjectClass": "policyholder",
+      "purposes": ["fraud_screen"],
+      "activities": ["fraud_score"],
+      "dataClasses": ["claim_history", "contact", "device_id"],
+      "legalBasis": "consent",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "active"
+    },
+    {
+      "id": "g-1003",
+      "subjectClass": "policyholder",
+      "purposes": ["claims_triage"],
+      "activities": ["estimate_severity"],
+      "dataClasses": ["claim_history", "contact", "photos"],
+      "legalBasis": "consent",
+      "automation": "human_approval",
+      "decisionEffect": "binding",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "active"
+    },
+    {
+      "id": "g-1004",
+      "subjectClass": "claimant_dependent",
+      "purposes": ["claims_triage"],
+      "activities": ["notify_dependents"],
+      "dataClasses": ["contact"],
+      "legalBasis": "consent",
+      "automation": "none",
+      "decisionEffect": "advisory",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "active"
+    },
+    {
+      "id": "g-1005",
+      "subjectClass": "policyholder",
+      "purposes": ["fraud_screen"],
+      "activities": ["manual_review_queue"],
+      "dataClasses": ["contact"],
+      "legalBasis": "consent",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "active"
+    },
+    {
+      "id": "g-1006",
+      "subjectClass": "policyholder",
+      "purposes": ["claims_triage", "fraud_screen"],
+      "activities": ["triage_claim", "fraud_score"],
+      "dataClasses": ["claim_history", "contact", "device_id"],
+      "legalBasis": "consent",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "validFrom": "2024-05-01",
+      "validUntil": "forever",
+      "status": "active"
+    }
+  ]
+}

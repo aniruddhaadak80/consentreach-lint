@@ -1,0 +1,156 @@
+/*
+ * THE SINGLE SOURCE OF COLOUR TRUTH.
+ *
+ * check:theme-tokens fails the build if a raw hex/rgb/hsl literal appears in any other
+ * file under apps/web. If you need a new colour, add it here — nowhere else.
+ *
+ * Palette: stone + lime, drawn from the novelty vector for this build. Warm neutral greys
+ * carry the interface; a single lime accent carries every affirmative reading — coverage,
+ * a proven bound, a grant with zero over-reach. Nothing else is coloured, so a lime pixel
+ * always means the same thing.
+ *
+ * Density is spacious, radii are soft, and motion is none: this build's motion signature is
+ * deliberately empty. A consent report should not animate while somebody is deciding whether
+ * to re-consent seven people.
+ */
+
+:root {
+  /* surfaces — stone */
+  --bg: #fafaf9;
+  --bg-elevated: #ffffff;
+  --bg-sunken: #f5f5f4;
+
+  /* content — stone */
+  --fg: #1c1917;
+  --fg-muted: #57534e;
+  --fg-subtle: #78716c;
+
+  /* lines */
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
+
+  /* accent — lime, darkened for contrast on a light ground */
+  --accent: #4d7c0f;
+  --accent-hover: #3f6212;
+  --accent-fg: #ffffff;
+  --accent-subtle: #ecfccb;
+
+  /* status */
+  --ok: #3f6212;
+  --ok-subtle: #ecfccb;
+  --warn: #a16207;
+  --warn-subtle: #fefce8;
+  --danger: #b91c1c;
+  --danger-subtle: #fef2f2;
+  --info: #155e75;
+  --info-subtle: #ecfeff;
+
+  /* spacing scale — spacious */
+  --space-1: 0.375rem;
+  --space-2: 0.625rem;
+  --space-3: 0.875rem;
+  --space-4: 1.25rem;
+  --space-5: 1.875rem;
+  --space-6: 2.75rem;
+  --space-7: 4rem;
+  --space-8: 5.5rem;
+
+  /* radii — soft */
+  --radius-1: 4px;
+  --radius-2: 8px;
+  --radius-3: 12px;
+  --radius-4: 16px;
+
+  /* elevation */
+  --shadow-1: 0 1px 2px rgba(28, 25, 23, 0.06);
+  --shadow-2: 0 2px 10px rgba(28, 25, 23, 0.08);
+  --shadow-3: 0 10px 30px rgba(28, 25, 23, 0.1);
+
+  /* type — Inter + JetBrains Mono, with honest system fallbacks */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.125rem;
+  --text-3xl: 2.875rem;
+  --leading-tight: 1.2;
+  --leading-body: 1.65;
+
+  /*
+   * Motion signature: none.
+   *
+   * These tokens exist so `globals.css` never hard-codes a duration, and both are zero because
+   * nothing in this product moves. `--motion-duration-*` is referenced by the reduced-motion
+   * block at the bottom of this file and by nothing else.
+   */
+  --duration-fast: 0ms;
+  --duration-base: 0ms;
+  --ease: linear;
+
+  /* severity scale, derived from the engine's own severity numbers so the UI cannot drift */
+  --sev-100: #b91c1c;
+  --sev-90: #c2410c;
+  --sev-80: #a16207;
+  --sev-60: #155e75;
+  --sev-0: #78716c;
+  --sev-100-bg: #fef2f2;
+  --sev-90-bg: #fff7ed;
+  --sev-80-bg: #fefce8;
+  --sev-60-bg: #ecfeff;
+}
+
+[data-theme='dark'] {
+  /* surfaces */
+  --bg: #1c1917;
+  --bg-elevated: #292524;
+  --bg-sunken: #0c0a09;
+
+  /* content */
+  --fg: #fafaf9;
+  --fg-muted: #a8a29e;
+  --fg-subtle: #78716c;
+
+  /* lines */
+  --border: #44403c;
+  --border-strong: #57534e;
+
+  /* accent — lime, brightened for a dark ground */
+  --accent: #a3e635;
+  --accent-hover: #bef264;
+  --accent-fg: #1c1917;
+  --accent-subtle: #365314;
+
+  /* status */
+  --ok: #a3e635;
+  --ok-subtle: #1a2e05;
+  --warn: #fbbf24;
+  --warn-subtle: #451a03;
+  --danger: #f87171;
+  --danger-subtle: #450a0a;
+  --info: #67e8f9;
+  --info-subtle: #083344;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --shadow-3: 0 10px 30px rgba(0, 0, 0, 0.6);
+
+  --sev-100: #f87171;
+  --sev-90: #fb923c;
+  --sev-80: #fbbf24;
+  --sev-60: #67e8f9;
+  --sev-0: #a8a29e;
+  --sev-100-bg: #450a0a;
+  --sev-90-bg: #431407;
+  --sev-80-bg: #451a03;
+  --sev-60-bg: #083344;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+}

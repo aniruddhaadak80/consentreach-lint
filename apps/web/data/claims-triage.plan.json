@@ -1,0 +1,184 @@
+{
+  "asOf": "2026-09-01",
+  "broad": {
+    "count": 2,
+    "grants": [
+      "activity:fraud_screen:fraud_score",
+      "cohort:claims_triage:policyholder"
+    ],
+    "lowerBound": 2,
+    "provenMinimal": true
+  },
+  "coverage": {
+    "activities": 8,
+    "consentActivities": 6,
+    "coverageRatio": 0.333333,
+    "covered": 2,
+    "outOfScope": 2,
+    "uncovered": 4
+  },
+  "overReachCost": {
+    "broad": 1,
+    "specific": 0
+  },
+  "recommended": {
+    "count": 4,
+    "grants": [
+      "activity:claims_triage:auto_settle_small_claims",
+      "activity:claims_triage:estimate_severity",
+      "activity:claims_triage:infer_health_from_notes",
+      "activity:fraud_screen:fraud_score"
+    ],
+    "lowerBound": 4,
+    "plan": "specific",
+    "provenMinimal": true,
+    "sweep": 0,
+    "sweepDetail": [
+      {
+        "covers": [
+          "auto_settle_small_claims"
+        ],
+        "grant": "activity:claims_triage:auto_settle_small_claims",
+        "sweep": 0
+      },
+      {
+        "covers": [
+          "estimate_severity"
+        ],
+        "grant": "activity:claims_triage:estimate_severity",
+        "sweep": 0
+      },
+      {
+        "covers": [
+          "infer_health_from_notes"
+        ],
+        "grant": "activity:claims_triage:infer_health_from_notes",
+        "sweep": 0
+      },
+      {
+        "covers": [
+          "fraud_score"
+        ],
+        "grant": "activity:fraud_screen:fraud_score",
+        "sweep": 0
+      }
+    ]
+  },
+  "specific": {
+    "count": 4,
+    "grants": [
+      "activity:claims_triage:auto_settle_small_claims",
+      "activity:claims_triage:estimate_severity",
+      "activity:claims_triage:infer_health_from_notes",
+      "activity:fraud_screen:fraud_score"
+    ],
+    "lowerBound": 4,
+    "provenMinimal": true
+  },
+  "uncovered": [
+    {
+      "activityId": "fraud_score",
+      "automation": "automated",
+      "blockers": [
+        "grant-escalation",
+        "data-class-not-covered"
+      ],
+      "dataClasses": [
+        "biometric",
+        "claim_history",
+        "contact",
+        "device_id"
+      ],
+      "decisionEffect": "advisory",
+      "legalBasis": "consent",
+      "purpose": "fraud_screen",
+      "reason": "grant-escalation",
+      "reasonSeverity": 100,
+      "subjectClass": "policyholder"
+    },
+    {
+      "activityId": "estimate_severity",
+      "automation": "human_approval",
+      "blockers": [
+        "grant-expired"
+      ],
+      "dataClasses": [
+        "claim_history",
+        "contact",
+        "photos"
+      ],
+      "decisionEffect": "dispositive",
+      "legalBasis": "consent",
+      "purpose": "claims_triage",
+      "reason": "grant-expired",
+      "reasonSeverity": 80,
+      "subjectClass": "policyholder"
+    },
+    {
+      "activityId": "auto_settle_small_claims",
+      "automation": "automated",
+      "blockers": [
+        "no-active-grant"
+      ],
+      "dataClasses": [
+        "claim_history",
+        "contact"
+      ],
+      "decisionEffect": "binding",
+      "legalBasis": "consent",
+      "purpose": "claims_triage",
+      "reason": "no-active-grant",
+      "reasonSeverity": 60,
+      "subjectClass": "policyholder"
+    },
+    {
+      "activityId": "infer_health_from_notes",
+      "automation": "automated",
+      "blockers": [
+        "no-active-grant"
+      ],
+      "dataClasses": [
+        "clinical_notes",
+        "contact",
+        "health"
+      ],
+      "decisionEffect": "advisory",
+      "legalBasis": "consent",
+      "purpose": "claims_triage",
+      "reason": "no-active-grant",
+      "reasonSeverity": 60,
+      "subjectClass": "policyholder"
+    }
+  ],
+  "violationCounts": {
+    "high": 2,
+    "info": 2,
+    "medium": 0
+  },
+  "violations": [
+    {
+      "detail": "a machine decides a binding or dispositive outcome; consent cannot be reused from a human-reviewed version of this activity",
+      "rule": "machine-decided-binding-effect",
+      "severity": "high",
+      "subject": "auto_settle_small_claims"
+    },
+    {
+      "detail": "touches health under basis legitimate_interest",
+      "rule": "sensitive-data-without-consent",
+      "severity": "high",
+      "subject": "vendor_analytics_share"
+    },
+    {
+      "detail": "lapses on 2026-06-30; activities covered by it alone will be orphaned on that date",
+      "rule": "expiring-grant",
+      "severity": "info",
+      "subject": "g-1003"
+    },
+    {
+      "detail": "lapses on 2026-03-31; activities covered by it alone will be orphaned on that date",
+      "rule": "expiring-grant",
+      "severity": "info",
+      "subject": "g-1006"
+    }
+  ]
+}

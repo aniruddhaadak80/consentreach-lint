@@ -1,0 +1,79 @@
+{
+  "system": "claims-triage",
+  "epoch": "2026-09-01",
+  "note": "The processing surface after the 2026-09 change. Four obligations are created: one new activity that nobody consented to, one that infers health data, one that escalated from human review to automated, and one whose grant lapsed before the change landed.",
+  "activities": [
+    {
+      "id": "triage_claim",
+      "purpose": "claims_triage",
+      "subjectClass": "policyholder",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "dataClasses": ["claim_history", "contact"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "fraud_score",
+      "purpose": "fraud_screen",
+      "subjectClass": "policyholder",
+      "automation": "automated",
+      "decisionEffect": "advisory",
+      "dataClasses": ["biometric", "claim_history", "contact", "device_id"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "estimate_severity",
+      "purpose": "claims_triage",
+      "subjectClass": "policyholder",
+      "automation": "human_approval",
+      "decisionEffect": "dispositive",
+      "dataClasses": ["claim_history", "contact", "photos"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "auto_settle_small_claims",
+      "purpose": "claims_triage",
+      "subjectClass": "policyholder",
+      "automation": "automated",
+      "decisionEffect": "binding",
+      "dataClasses": ["claim_history", "contact"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "infer_health_from_notes",
+      "purpose": "claims_triage",
+      "subjectClass": "policyholder",
+      "automation": "automated",
+      "decisionEffect": "advisory",
+      "dataClasses": ["clinical_notes", "contact", "health"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "notify_dependents",
+      "purpose": "claims_triage",
+      "subjectClass": "claimant_dependent",
+      "automation": "none",
+      "decisionEffect": "advisory",
+      "dataClasses": ["contact"],
+      "legalBasis": "consent"
+    },
+    {
+      "id": "renewal_offer",
+      "purpose": "renewal_pricing",
+      "subjectClass": "policyholder",
+      "automation": "automated",
+      "decisionEffect": "advisory",
+      "dataClasses": ["claim_history", "contact"],
+      "legalBasis": "legitimate_interest"
+    },
+    {
+      "id": "vendor_analytics_share",
+      "purpose": "analytics",
+      "subjectClass": "policyholder",
+      "automation": "automated",
+      "decisionEffect": "none",
+      "dataClasses": ["claim_history", "health"],
+      "legalBasis": "legitimate_interest"
+    }
+  ]
+}

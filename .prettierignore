@@ -1,0 +1,13 @@
+node_modules
+dist
+.next
+coverage
+.turbo
+package-lock.json
+services/engine/.venv
+CHANGELOG.md
+
+# Machine-generated. Reformatting these would create churn that means nothing and would break
+# the byte-stable comparison in scripts/engine-artifacts.mjs.
+apps/web/data/*.plan.json
+apps/web/tests/fixtures/*.json

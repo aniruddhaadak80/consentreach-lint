@@ -1,0 +1,83 @@
+{
+  "note": "The consent ledger in force at the 2026-09-01 epoch. Grants record the level a person actually accepted, which is why fraud_score is orphaned: g-1002 accepted human review and the system now decides alone.",
+  "grants": [
+    {
+      "id": "g-1001",
+      "subjectClass": "policyholder",
+      "purposes": ["claims_triage"],
+      "activities": ["triage_claim"],
+      "dataClasses": ["claim_history", "contact"],
+      "legalBasis": "consent",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "active"
+    },
+    {
+      "id": "g-1002",
+      "subjectClass": "policyholder",
+      "purposes": ["fraud_screen"],
+      "activities": ["fraud_score"],
+      "dataClasses": ["claim_history", "contact", "device_id"],
+      "legalBasis": "consent",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "active"
+    },
+    {
+      "id": "g-1003",
+      "subjectClass": "policyholder",
+      "purposes": ["claims_triage"],
+      "activities": ["estimate_severity"],
+      "dataClasses": ["claim_history", "contact", "photos"],
+      "legalBasis": "consent",
+      "automation": "human_approval",
+      "decisionEffect": "binding",
+      "validFrom": "2025-11-01",
+      "validUntil": "2026-06-30",
+      "status": "active"
+    },
+    {
+      "id": "g-1004",
+      "subjectClass": "claimant_dependent",
+      "purposes": ["claims_triage"],
+      "activities": ["notify_dependents"],
+      "dataClasses": ["contact"],
+      "legalBasis": "consent",
+      "automation": "none",
+      "decisionEffect": "advisory",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "active"
+    },
+    {
+      "id": "g-1005",
+      "subjectClass": "policyholder",
+      "purposes": ["fraud_screen"],
+      "activities": ["manual_review_queue"],
+      "dataClasses": ["contact"],
+      "legalBasis": "consent",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "validFrom": "2025-11-01",
+      "validUntil": "forever",
+      "status": "withdrawn"
+    },
+    {
+      "id": "g-1006",
+      "subjectClass": "policyholder",
+      "purposes": ["claims_triage", "fraud_screen"],
+      "activities": ["triage_claim", "fraud_score"],
+      "dataClasses": ["claim_history", "contact", "device_id"],
+      "legalBasis": "consent",
+      "automation": "human_review",
+      "decisionEffect": "advisory",
+      "validFrom": "2024-05-01",
+      "validUntil": "2026-03-31",
+      "status": "active"
+    }
+  ]
+}
