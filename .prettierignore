@@ -7,6 +7,10 @@ package-lock.json
 services/engine/.venv
 CHANGELOG.md
 
+# Local deployment state written by the Vercel CLI. Git already ignores it via apps/web/.gitignore;
+# prettier still walks the tree, so it is excluded here too.
+.vercel/
+
 # Machine-generated. Reformatting these would create churn that means nothing and would break
 # the byte-stable comparison in scripts/engine-artifacts.mjs.
 apps/web/data/*.plan.json
