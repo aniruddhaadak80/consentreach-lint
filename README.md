@@ -293,10 +293,20 @@ MCP VERIFICATION PASSED — the server speaks the protocol over real stdio.
 
 ```bash
 npm run build --workspace @consentreachlint/web
-node apps/web/next/dist/bin/next start apps/web --port 3000
+npm run start --workspace @consentreachlint/web
 ```
 
-The deployed app is at <https://consentreach-lint.vercel.app>.
+The deployed app is at
+<https://web-c0st32kns-aniruddha-adaks-projects.vercel.app>.
+
+```console
+$ curl -s https://web-c0st32kns-aniruddha-adaks-projects.vercel.app/api/health
+{"ok":true,"name":"consentreach-lint","version":"0.1.0","commit":"2e242f8e10c7cddace503f2a401f1984835bf1bb","runtime":"24.21.0","region":"bom1","uptimeSeconds":3,"checks":[...]}
+```
+
+The `reach` check in that body is the important one: it is the deployed app recomputing the
+algebra over the committed declarations, so a green health response is a statement about the
+product and not only about the runtime.
 
 ### 9. Run the whole gate
 
