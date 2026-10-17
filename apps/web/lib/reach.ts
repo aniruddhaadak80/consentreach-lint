@@ -214,15 +214,21 @@ export function blockersFor(
   const live = structural.filter((grant) => grant.status === 'active' && inWindow(grant, asOf))
 
   if (live.length > 0) {
+    // Cover requires ONE grant to take both the data classes and the level the system now applies.
+    // Letting a different grant satisfy each half composes two separate acceptances into a
+    // permission neither person gave, so an activity with no authorising grant would be reported
+    // as covered. A false 'covered' is the one failure this mirror must not commit either.
+    const covering = live.some((grant) => dataCovers(grant, activity) && escalationOk(grant, activity))
+    if (covering) return []
     const found: BlockerReason[] = []
     if (!live.some((grant) => dataCovers(grant, activity))) found.push('data-class-not-covered')
     if (!live.some((grant) => escalationOk(grant, activity))) found.push('grant-escalation')
-    if (found.length > 0) {
-      return found.sort(
-        (a, b) => rankOf(REASON_SEVERITY, b) - rankOf(REASON_SEVERITY, a) || a.localeCompare(b),
-      )
+    if (found.length === 0) {
+      // Each half is satisfied, by a different in-force grant. What is missing is the combination,
+      // so both obligations are named rather than resolved by composition.
+      found.push('grant-escalation', 'data-class-not-covered')
     }
-    return []
+    return found.sort((a, b) => rankOf(REASON_SEVERITY, b) - rankOf(REASON_SEVERITY, a) || a.localeCompare(b))
   }
 
   if (structural.some((grant) => grant.status === 'withdrawn')) return ['grant-withdrawn']

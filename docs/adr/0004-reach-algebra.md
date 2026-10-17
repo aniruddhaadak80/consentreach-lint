@@ -38,6 +38,12 @@ when **any** of the following holds:
 3. some grant matches on cohort/purpose/activity but its `dataClasses` do not cover the activity's;
 4. its automation or decision effect **increased** relative to the before-surface.
 
+Rules 3 and 4 are both evaluated against **one and the same** in-force grant. Cover requires a
+single grant that takes the activity's data classes at the level the system now applies;
+answering rule 3 with one grant and rule 4 with another is not cover, because it would compose two
+separate acceptances into a permission neither person gave. An activity nobody authorised must be
+reported as uncovered, which is the failure mode this product exists to prevent.
+
 `reach_diff` therefore emits hunks classified as `benign`, `scope-creep`, `automation-escalation`,
 `effect-escalation`, or `reach-withdrawal`, each with a severity from a fixed table, and emits one
 `UncoveredTuple` per failing tuple carrying a `reason` that names which of the four rules fired.
