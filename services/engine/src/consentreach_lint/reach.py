@@ -350,6 +350,15 @@ def blockers_for(
     ]
 
     if live:
+        # Cover requires ONE grant to take both the data classes and the level the system now
+        # applies. Letting a different grant satisfy each half composes two separate acceptances
+        # into a permission neither person gave, so an activity nobody authorised would be reported
+        # as covered. A false 'covered' is the one failure this engine must not commit.
+        covering = any(
+            _data_covers(grant, activity) and _escalation_ok(grant, activity) for grant in live
+        )
+        if covering:
+            return []
         # Only meaningful when something is actually in force. With an empty `live` these two
         # checks would be vacuously false and would mask a lifecycle problem as a scope one.
         found: list[str] = []
@@ -357,9 +366,11 @@ def blockers_for(
             found.append(REASON_DATA)
         if not any(_escalation_ok(grant, activity) for grant in live):
             found.append(REASON_ESCALATION)
-        if found:
-            return sorted(found, key=lambda reason: (-REASON_SEVERITY[reason], reason))
-        return []
+        if not found:
+            # Each half is satisfied, by a different in-force grant. What is missing is the
+            # combination, so both obligations are named rather than resolved by composition.
+            found.extend((REASON_ESCALATION, REASON_DATA))
+        return sorted(found, key=lambda reason: (-REASON_SEVERITY[reason], reason))
 
     # Nothing is in force, so the gap is about the grant's lifecycle or its total absence.
     if any(grant["status"] == "withdrawn" for grant in structural):

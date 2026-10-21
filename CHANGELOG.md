@@ -42,6 +42,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `_require_date` rejected the `forever` sentinel its own contract documented.
 - Orphan reasons were single-valued, so an activity failing two axes reported only the less
   serious one. Reasons are now a severity-ordered list with the head used for triage.
+- Cover could be composed out of two grants. `blockers_for` asked "does any in-force grant take
+  these data classes?" and "does any in-force grant take this automation level?" as separate
+  questions, so a grant that accepted the data at `human_review` together with a grant that
+  accepted `automated` on narrower data classes reported the activity as **covered** — a
+  permission no person gave. Cover now requires a single in-force grant to authorise both the data
+  and the level; the split case is reported with both obligations. Fixed in `reach.py` and in the
+  `apps/web/lib/reach.ts` mirror.
 
 
 ## [0.1.0] - 2026-01-01

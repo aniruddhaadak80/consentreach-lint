@@ -213,6 +213,42 @@ class TestBlockers:
             REASON_EXPIRED
         ]
 
+    def test_halves_of_two_grants_are_not_combined_into_cover(self) -> None:
+        # g-accepted-data took the data at human review; g-accepted-level took the machine level
+        # but not the data. Nobody accepted the two together, so the activity is not covered.
+        result = blockers_for(
+            activity(automation="automated", data=("contact", "health")),
+            [
+                grant("g-data", data=("contact", "health"), automation="human_review"),
+                grant("g-level", data=("contact",), automation="automated"),
+            ],
+            "2026-06-01",
+        )
+        assert result == [REASON_ESCALATION, REASON_DATA]
+
+    def test_each_half_covering_grant_alone_is_still_a_blocker(self) -> None:
+        # The two rows of the split above, one at a time, so the pair above cannot pass by accident.
+        half = grant(data=("contact", "health"), automation="human_review")
+        assert classify_activity(
+            activity(automation="automated", data=("contact", "health")), [half], "2026-06-01"
+        ) == REASON_ESCALATION
+        level_only = grant(data=("contact",), automation="automated")
+        assert classify_activity(
+            activity(automation="automated", data=("contact", "health")), [level_only], "2026-06-01"
+        ) == REASON_DATA
+
+    def test_a_grant_covering_both_halves_still_wins_over_the_split(self) -> None:
+        result = blockers_for(
+            activity(automation="automated", data=("contact", "health")),
+            [
+                grant("g-data", data=("contact", "health"), automation="human_review"),
+                grant("g-level", data=("contact",), automation="automated"),
+                grant("g-both", data=("contact", "health"), automation="automated"),
+            ],
+            "2026-06-01",
+        )
+        assert result == []
+
 
 class TestHunks:
     def test_an_escalation_is_visible_without_any_added_activity(self) -> None:
@@ -286,6 +322,21 @@ class TestReachDiff:
         result = run_diff(surface(), surface(activity("a1")), [])
         assert result["uncovered"][0]["reason"] == REASON_NO_GRANT
         assert result["uncovered"][0]["reasonSeverity"] > 0
+
+    def test_coverage_is_not_invented_from_halves_of_two_grants(self) -> None:
+        # The report is the product: an activity nobody authorised must not be counted as covered,
+        # or the queue and the plan both lose the obligation.
+        result = run_diff(
+            surface(),
+            surface(activity("a1", automation="automated", data=("contact", "health"))),
+            [
+                grant("g-data", data=("contact", "health"), automation="human_review"),
+                grant("g-level", data=("contact",), automation="automated"),
+            ],
+        )
+        assert result["coverage"]["covered"] == 0
+        assert result["coverage"]["uncovered"] == 1
+        assert result["uncovered"][0]["blockers"] == [REASON_ESCALATION, REASON_DATA]
 
     def test_orphans_carry_every_blocker(self) -> None:
         result = run_diff(

@@ -14,7 +14,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { test } from 'node:test'
-import { reachDiff, validateSurface } from '../lib/reach.ts'
+import { blockersFor, reachDiff, validateSurface } from '../lib/reach.ts'
 
 const WEB = new URL('..', import.meta.url).pathname.replace(/^\/(.:)/, '$1')
 const read = (name) => readFileSync(join(WEB, 'data', name), 'utf8')
@@ -84,6 +84,54 @@ test('is independent of the order the input arrives in', () => {
     asOf,
   })
   assert.deepEqual(shuffled, lint())
+})
+
+test('refuses to compose half a permission out of two grants', () => {
+  // g-data took these data classes at human review; g-level took the machine level but not the
+  // data. Nobody accepted the two together, so the activity is not covered. Restated here because
+  // the committed dataset contains no split pair, so the fixture alone cannot catch this.
+  const activity = {
+    id: 'a1',
+    purpose: 'risk_scoring',
+    subjectClass: 'applicant',
+    automation: 'automated',
+    decisionEffect: 'advisory',
+    dataClasses: ['contact', 'health'],
+    legalBasis: 'consent',
+  }
+  const half = (id, dataClasses, automation) => ({
+    id,
+    subjectClass: 'applicant',
+    purposes: ['risk_scoring'],
+    activities: ['a1'],
+    dataClasses,
+    legalBasis: 'consent',
+    automation,
+    decisionEffect: 'advisory',
+    validFrom: '2026-01-01',
+    validUntil: 'forever',
+    status: 'active',
+  })
+  assert.deepEqual(
+    blockersFor(
+      activity,
+      [half('g-data', ['contact', 'health'], 'human_review'), half('g-level', ['contact'], 'automated')],
+      '2026-06-01',
+    ),
+    ['grant-escalation', 'data-class-not-covered'],
+  )
+  assert.deepEqual(
+    blockersFor(
+      activity,
+      [
+        half('g-data', ['contact', 'health'], 'human_review'),
+        half('g-level', ['contact'], 'automated'),
+        half('g-both', ['contact', 'health'], 'automated'),
+      ],
+      '2026-06-01',
+    ),
+    [],
+  )
 })
 
 test('the fixture is the one the engine actually produced', () => {
